@@ -1,0 +1,9 @@
+{
+	"name": "bankingdatatransform",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "bc288d97-d642-4966-b861-e51ab754f3cb",
+		"tenantId": "5e93ff23-b9d3-4148-aff2-d4de91b3680d"
+	}
+}
