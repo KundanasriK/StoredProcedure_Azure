@@ -47,7 +47,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('Lookup1').output",
+						"value": "@activity('Lookup1').output.value",
 						"type": "Expression"
 					},
 					"activities": [
@@ -58,7 +58,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
-									"value": "@contains(activity('Lookup1').output.value,activity('Lookup1').output.value.Card Type Code)",
+									"value": "@contains(item().CardTypeCode,'DC')",
 									"type": "Expression"
 								},
 								"ifFalseActivities": [
@@ -74,12 +74,60 @@
 								],
 								"ifTrueActivities": [
 									{
-										"name": "WaitTrue",
-										"type": "Wait",
+										"name": "Stored procedure1",
+										"type": "SqlServerStoredProcedure",
 										"dependsOn": [],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
 										"userProperties": [],
 										"typeProperties": {
-											"waitTimeInSeconds": 3
+											"storedProcedureName": "[dbo].[Creditcard]",
+											"storedProcedureParameters": {
+												"CardNumber": {
+													"value": {
+														"value": "@item().CardNumber",
+														"type": "Expression"
+													},
+													"type": "String"
+												},
+												"CardType": {
+													"value": {
+														"value": "@item().CardTypeCode",
+														"type": "Expression"
+													},
+													"type": "String"
+												},
+												"creditlimit": {
+													"value": {
+														"value": "@item().CreditLimit",
+														"type": "Expression"
+													},
+													"type": "Int32"
+												},
+												"HolderName": {
+													"value": {
+														"value": "@item().HolderName",
+														"type": "Expression"
+													},
+													"type": "String"
+												},
+												"Issuingbank": {
+													"value": {
+														"value": "@item().IssuingBank",
+														"type": "Expression"
+													},
+													"type": "String"
+												}
+											}
+										},
+										"linkedServiceName": {
+											"referenceName": "StoredProc_LS",
+											"type": "LinkedServiceReference"
 										}
 									}
 								]
